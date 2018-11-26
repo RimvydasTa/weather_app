@@ -32,19 +32,24 @@ class AgeCalculatorManager
      */
     public function calculateAge($birthDate)
     {
-
-        $personAge = $this->ageCalculator->calculateAgeByBirthDate($birthDate);
-        return $personAge;
+        if ($birthDate){
+            $personAge = $this->ageCalculator->calculateAgeByBirthDate($birthDate);
+            return $personAge;
+        }
+        return false;
     }
 
     /**
+     * @param $ageInput
      * @param $personAge
      * @return bool
      */
-    public function adultChecker($personAge)
+    public function adultChecker($ageInput, $personAge)
     {
-        return $isAdult = $this->adultChecker->checkIfAdult($personAge);
-
+        if ($ageInput){
+            return $isAdult = $this->adultChecker->checkIfAdult($personAge);
+        }
+        return false;
     }
 
 }

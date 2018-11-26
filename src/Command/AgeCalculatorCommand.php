@@ -59,21 +59,17 @@ class AgeCalculatorCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $birthDate = $input->getArgument(self::$birthDateArgument);
 
-        if ($birthDate) {
-            $this->age = $this->ageManager->calculateAge($birthDate);
-            $io->note(sprintf('I am %s years old',  $this->age));
+        $this->age = $this->ageManager->calculateAge($input->getArgument(self::$birthDateArgument));
+        $io->note(sprintf('I am %s years old',  $this->age));
+
+        $checkAdult = $this->ageManager->adultChecker($input->getOption(self::$isAdultOption),$this->age);
+
+        if ($checkAdult === true){
+            $io->success('Am I and adult?   ----   YES!');
+        }else {
+            $io->warning('Am I and adult?   ----   NO!');
         }
 
-        if ($input->getOption(self::$isAdultOption)) {
-            $checkAdult = $this->ageManager->adultChecker($this->age);
-
-            if ($checkAdult === true){
-                $io->success('Am I and adult?   ----   YES!');
-            }else {
-                $io->warning('Am I and adult?   ----   NO!');
-            }
-        }
     }
 }
